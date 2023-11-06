@@ -22,4 +22,9 @@ public class BingoesController {
         return bingoesService.deleteBingoFromId(id);
     }
 
+    @GetMapping(value = "/get/format/{id}")
+    public Long getBingoesFormatFromId(@PathVariable Long id){
+        return bingoesService.getBingoesFormatFromId(id);
+    }
+
 }

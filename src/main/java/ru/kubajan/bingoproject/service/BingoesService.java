@@ -16,10 +16,15 @@ public class BingoesService {
     @Autowired
     private FormatsService formatsService;
 
+    @Autowired
+    private FieldsService fieldsService;
+
     public Long createNewBingo(@NotNull BingoesModel bingoesModel) {
         BingoesEntity newBingo = BingoesJpaMapper.toJpa(bingoesModel);
         newBingo.setFormatsEntity(formatsService.getFormatById(bingoesModel.getFormat_id()));
-        return bingoesRepository.save(newBingo).getId();
+        bingoesRepository.save(newBingo);
+        fieldsService.addFieldsToNewBingo(newBingo);
+        return newBingo.getId();
     }
 
     public String deleteBingoFromId(Long id) {
@@ -27,5 +32,11 @@ public class BingoesService {
             bingoesRepository.deleteById(id);
             return "Удаление успешно завершено";
         } else return "Удаление не удалось";
+    }
+
+    public Long getBingoesFormatFromId(Long id) {
+        if(bingoesRepository.existsById(id)){
+            return bingoesRepository.findById(id).get().getFormatsEntity().getId();
+        } else return 0L;
     }
 }
