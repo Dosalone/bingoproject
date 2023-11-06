@@ -11,4 +11,6 @@ import ru.kubajan.bingoproject.service.FieldsService;
 public class FieldsController {
     @Autowired
     private FieldsService fieldsService;
+
+
 }
